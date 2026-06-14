@@ -1,0 +1,890 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <title>NexiCore - Games</title>
+
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- cart icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- Bootstrap carousel -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-image: url("img3.jpg");
+      font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Anton&family=Bebas+Neue&family=Jost:ital,wght@1,600&family=Lexend:wght@700&family=Nova+Oval&family=Oswald:wght@500&family=PT+Serif:wght@700&family=Titillium+Web&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
+
+    .no-radius,
+    button,
+    .product-card,
+    .filter-btn,
+    .expanded-detail,
+    .cart-toast,
+    .badge,
+    .add-cart-expand,
+    .close-detail-btn,
+    .card-img,
+    .products-grid,
+    .filter-bar {
+      border-radius: 0px !important;
+    }
+
+    /* nav stuff*/
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 24px 40px;
+      z-index: 100;
+      background: transparent;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      color: #fafafa;
+      text-decoration: none;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links li a:hover {
+      opacity: 0.7;
+    }
+
+    .nav-links li a.active {
+      color: #00d4ff !important;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 8px;
+    }
+
+    /*carousel*/
+.carousel {
+  margin-top: 80px;  
+  margin-bottom: 2rem;
+}
+
+.carousel-item {
+  height: 580px;
+}
+
+.carousel-item img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.carousel {
+  position: relative;
+  z-index: 2;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  text-align: left;
+}
+
+.products-grid {
+  position: relative;
+  z-index: 1;
+}
+
+/*new games*/ 
+.top-games-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #001589;
+  z-index: 10;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.top-games-badge {
+  border-radius: 25px;
+}
+    /* sorting nav */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem auto 2rem;
+      padding: 0 5% 1rem 5%;
+      overflow: visible;
+      width: 100%;
+    }
+
+    .filter-btn {
+      background: #0a1222;
+      border: 2px solid #30446d;
+      color: #30446d;
+      padding: 0.6rem 1.4rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      font-size: 0.85rem;
+      border-radius: 50px !important;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 5px #30446d;
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: #30446d;
+      border-color: #30446d;
+      color: #0a0f1c;
+      box-shadow: 0 0 20px #30446d;
+      text-shadow: none;
+    }
+
+    /* products grid */
+    .products-wrapper {
+      max-width: 1400px;
+      margin: 1rem auto 4rem;
+      padding: 0 5%;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: #1f2a44;
+      border: 1px solid #30446d;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      border-color: #783697;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-img {
+      height: 240px;
+      background: #0f172a;
+      overflow: hidden;
+    }
+
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover .card-img img {
+      transform: scale(1.02);
+    }
+
+    .card-info {
+      padding: 1.2rem;
+    }
+
+    .category {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: #30446d;
+      letter-spacing: 1px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+    }
+
+    .product-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0.4rem 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    /* price*/
+    .price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #c0e0ff;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .old-price {
+      font-size: 0.85rem;
+      color: #7b8aa3;
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #30446d;
+      padding: 2px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #15a92b;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .expanded-detail {
+      grid-column: 1 / -1;
+      background: #0f172f;
+      border: 1px solid #3c4e72;
+      margin: 0.5rem 0 1rem 0;
+      padding: 2rem;
+      display: none;
+      animation: fadeSlide 0.35s ease;
+    }
+
+    .expanded-detail.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .detail-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .detail-media {
+      flex: 1.2;
+      min-width: 240px;
+    }
+
+    .detail-media img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      border: 1px solid #30446d;
+    }
+
+    .detail-info {
+      flex: 2;
+    }
+
+    .detail-info h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .detail-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #30446d;
+      margin: 0.8rem 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .detail-desc {
+      color: #cbd5e6;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .specs {
+      background: #0a1222;
+      padding: 1rem;
+      border-left: 3px solid #30446d;
+      margin: 1rem 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .specs p {
+      margin: 6px 0;
+    }
+
+    .close-detail-btn {
+      background: #2c3f5f;
+      border: none;
+      color: white;
+      padding: 8px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: 0.2s;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .close-detail-btn:hover {
+      background: #783697;
+      color: #0a0f1c;
+    }
+
+    /* cart expand */
+    .add-cart-expand {
+      background: #30446d;
+      border: none;
+      color: white;
+      padding: 10px 24px;
+      font-weight: bold;
+      margin-right: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .add-cart-expand:hover {
+      background: #783697;
+      color: #0f172a;
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem;
+      background: #111827;
+      border: 1px solid #30446d;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .cart-toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1f2a44;
+      border-left: 4px solid #94ceeb;
+      padding: 12px 20px;
+      z-index: 300;
+      backdrop-filter: blur(8px);
+      font-weight: 500;
+      transform: translateX(400px);
+      transition: transform 0.3s;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .cart-toast.show {
+      transform: translateX(0);
+    }
+
+    .quick-add {
+      background: #30446d;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      margin-top: 12px;
+      width: 100%;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.2s;
+    }
+
+    .quick-add:hover {
+      background: #5d97b0;
+      color: #0f172a;
+    }
+
+    /* cart badge*/
+    .shopping-cart-badge {
+      position: fixed;
+      top: 24px;
+      right: 40px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #1f2a44;
+      padding: 6px 12px;
+      border: 1px solid #ae00ff;
+      z-index: 101;
+    }
+
+    .cart-count {
+      background: #94ceeb;
+      color: #0f172a;
+      padding: 0px 6px;
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
+
+    @media (max-width: 800px) {
+      .products-grid {
+        gap: 1.2rem;
+      }
+
+      .detail-container {
+        flex-direction: column;
+      }
+
+      .navbar {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links li a {
+        font-size: 12px;
+      }
+
+      .shopping-cart-badge {
+        top: 16px;
+        right: 20px;
+        padding: 4px 8px;
+      }
+    }
+
+    body,
+    button,
+    input,
+    .filter-btn,
+    .product-title,
+    .price,
+    .category,
+    .detail-desc,
+    .specs,
+    .close-detail-btn,
+    .add-cart-expand {
+        font-family: 'Poppins', sans-serif;
+        color: #c2c2c2;
+    }   
+
+    .detail-info h2 {
+        font-family: 'Bebas Neue', cursive;
+    }
+    </style>
+</head>
+
+<body>
+
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="Background3.mp4" type="video/mp4">
+  </video>
+
+
+    <nav class="navbar">
+    <div class="nav-container">
+        <ul class="nav-links">
+        <li><a href="HomePage.html">Home</a></li>
+        <li><a href="Products.html">Products</a></li>
+        <li><a href="GamesPage.html" class="active">Games</a></li>
+        <li><a href="Cart.html">Cart</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+        </ul>
+    </div>
+    </nav>
+
+    <div class="navbar-spacer"></div>
+
+    <div class="shopping-cart-badge" id="cartIconSimple">
+    <i class="fas fa-shopping-cart"></i> <span id="cartCounter" class="cart-count">0</span>
+    </div>
+
+<!-- Carousel -->
+<div id="demo" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+
+  <!-- Indicators (only ONE set, with 10 buttons) -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="3"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="4"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="5"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="6"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="7"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="8"></button>
+    <button type="button" data-bs-target="#demo" data-bs-slide-to="9"></button>
+  </div>
+
+  <div class="carousel-inner">
+    
+    <div class="carousel-item active">
+      <div class="top-games-badge">TOP 10 NEWEST GAMES</div>
+      <div class="carousel-caption">
+      </div>
+      <img src="ca1.jpg" alt="Game 1" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca2.jpg" alt="Game 2" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca3.jpg" alt="Game 3" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca4.jpg" alt="Game 4" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca5.jpg" alt="Game 5" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca6.jpg" alt="Game 6" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca7.jpg" alt="Game 7" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca8.jpg" alt="Game 8" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca9.jpg" alt="Game 9" class="d-block w-100">
+    </div>
+    
+    <div class="carousel-item">
+      <div class="carousel-caption">
+      </div>
+      <img src="ca10.jpg" alt="Game 10" class="d-block w-100">
+    </div>
+    
+  </div>
+  
+  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+  
+</div>
+</div>
+
+    <div class="products-wrapper">
+    <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <div id="cartToast" class="cart-toast">✓ Added to cart</div>
+
+<script>
+    // products
+    (function () {
+        const products = [
+        {
+            id: 1, name: "Elden Ring", category: "Open World", price: 899.99,
+            badge: "NEW", img: "gm1.jpg",
+            desc: " ",
+            specs: "The Golden Order has been broken.<br/> Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between."
+        },
+
+        {
+            id: 2, name: "Cyberpunk 277", category: "Adventure", price: 499.99,
+            badge: "HOT", img: "gm2.jpg",
+            desc: " ",
+            specs: "An open-world, action-adventure RPG set in Night City, a megalopolis obsessed with power, glamour, and body modification."
+        },
+
+        {
+            id: 3, name: "NBA 2K26", category: "Sport", price: 1189.99, oldPrice: 1799.99,
+            badge: "SALE", img: "gm4.jpg",
+            desc: " ",
+            specs: "Powered by ProPLAY™ technology that directly translates real NBA footage into immersive gameplay. Experience smoother motion, enhanced Rhythm Shooting, and authentic player movement that captures the style of your favorite NBA stars"
+        },
+
+        {
+            id: 4, name: "God of War Ragnarök", category: "Action", price: 899.99, oldPrice: 1199.99,
+            badge: "SALE", img: "gm3.jpg",
+            desc: " ",
+            specs: "Embark on an epic and heartfelt journey as Kratos and Atreus struggle with holding on and letting go."
+        },
+
+        {
+            id: 5, name: "Call of Duty: Modern Warfare 4", category: "Action", price: 1499.99,
+            badge: "NEW", img: "gm5.jpg",
+            desc: " ",
+            specs: "Adapt or die in the fight against the ultimate threat. Experience explosive single-player missions and iconic multiplayer combat."
+        },
+
+        {
+            id: 6, name: "Spider-Man 2", category: "Adventure", price: 1299.99,
+            badge: "ESSENTIAL", img: "gm6.jpg",
+            desc: " ",
+            specs: "Be Greater. Together. Swing, jump, and glide across Marvel's New York as Peter Parker and Miles Morales as they face the monstrous Venom."
+        },
+
+        {
+            id: 7, name: "Minecraft", category: "Open World", price: 199.99,
+            badge: "HOT", img: "gm7.jpg",
+            desc: " ",
+            specs: "Explore infinite worlds, build everything from the simplest of homes to the grandest of castles,<br/> and survive the night in this legendary sandbox adventure."
+        },
+
+        {
+            id: 8, name: "Forza Horizon 6", category: "Racing", price: 1299.99, oldPrice: 1499.99,
+            badge: "NEW", img: "gm8.jpg",
+            desc: " ",
+            specs: "Experience the thrill of open-world racing like never before. Explore breathtaking landscapes,<br/> drive hundreds of stunning cars, and become a Horizon legend."
+        }
+        
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('nexicore_cart')) || [];
+    let activeFilter = "all";
+    let expandedProductId = null;
+
+      // currency
+    function formatRand(amount) {
+        return `R ${amount.toFixed(2)}`;
+    }
+
+      // cart object counter
+    function updateCartDisplay() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById("cartCounter").innerText = totalItems;
+    }
+    function saveCart() {
+        localStorage.setItem('nexicore_cart', JSON.stringify(cart));
+    }
+
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        const existing = cart.find(i => i.id === productId);
+        if (existing) {
+        existing.quantity++;
+        } else {
+        cart.push({ ...product, quantity: 1 });
+        }
+        saveCart();
+        updateCartDisplay();
+        showToast(`${product.name} added to cart`);
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById("cartToast");
+        toast.innerText = `✓ ${msg}`;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2000);
+    }
+
+    function renderProducts() {
+        let filtered = activeFilter === "all" ? products : products.filter(p => p.category === activeFilter);
+        const grid = document.getElementById("productsGrid");
+
+        if (filtered.length === 0) {
+        grid.innerHTML = `<div class="no-results">No gear found. Adjust filter.</div>`;
+        return;
+        }
+
+        let gridHtml = "";
+        filtered.forEach(product => {
+        const isExpanded = (expandedProductId === product.id);
+
+        // products card
+        gridHtml += `
+        <div class="product-card" data-id="${product.id}">
+        <div class="card-img">
+                <img src="${product.img}" alt="${product.name}">
+            </div>
+            <div class="card-info">
+                ${product.badge ? `<div class="badge">${product.badge}</div>` : ""}
+                <div class="category">${product.category.toUpperCase()}</div>
+                <div class="product-title">${product.name}</div>
+                <div class="price">
+                ${formatRand(product.price)}
+                ${product.oldPrice ? `<span class="old-price">${formatRand(product.oldPrice)}</span>` : ""}
+                </div>
+                <button class="quick-add" data-id="${product.id}">+ ADD TO CART</button>
+            </div>
+            </div>
+        `;
+
+          // expanding detail
+        if (isExpanded) {
+            gridHtml += `
+            <div class="expanded-detail active" data-expand="${product.id}">
+                <div class="detail-container">
+                <div class="detail-media">
+                    <img src="${product.img}" alt="${product.name}">
+                </div>
+                <div class="detail-info">
+                    <h2>${product.name}</h2>
+                    <div class="detail-price">${formatRand(product.price)} ${product.oldPrice ? `<span style="font-size:1rem; text-decoration:line-through;">${formatRand(product.oldPrice)}</span>` : ""}</div>
+                    <div class="detail-desc">${product.desc}</div>
+                    <div class="specs">
+                    <strong>Description</strong><br>
+                    ${product.specs}
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <button class="add-cart-expand" data-id="${product.id}">Add to Cart</button>
+                    <button class="close-detail-btn" data-id="${product.id}">✕ Close details</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            `;
+        }
+        });
+
+        grid.innerHTML = gridHtml;
+        document.querySelectorAll(".quick-add").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const id = parseInt(btn.dataset.id, 10);
+            addToCart(id);
+        });
+        });
+
+        document.querySelectorAll(".product-card").forEach(card => {
+        card.addEventListener("click", (e) => {
+            if (e.target.classList.contains("quick-add")) return;
+            const id = parseInt(card.dataset.id, 10);
+            toggleExpand(id);
+        });
+        });
+
+        document.querySelectorAll(".close-detail-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const id = parseInt(btn.dataset.id, 10);
+            if (expandedProductId === id) {
+            expandedProductId = null;
+            renderProducts();
+            }
+        });
+        });
+
+        // expand add to cart
+        document.querySelectorAll(".add-cart-expand").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const id = parseInt(btn.dataset.id, 10);
+            addToCart(id);
+        });
+        });
+    }
+
+    function toggleExpand(productId) {
+        if (expandedProductId === productId) {
+        expandedProductId = null;
+        } else {
+        expandedProductId = productId;
+        }
+        renderProducts();
+        setTimeout(() => {
+        const expandedDiv = document.querySelector(`.expanded-detail[data-expand="${productId}"]`);
+        if (expandedDiv) {
+            expandedDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        }, 50);
+    }
+
+    function setFilter(filter) {
+        activeFilter = filter;
+        expandedProductId = null;
+        renderProducts();
+        gsap.fromTo(".product-card", { opacity: 0, y: 12 }, { opacity: 1, y: 0, stagger: 0.04, duration: 0.4, ease: "power2.out" });
+    }
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filterVal = btn.dataset.filter;
+        setFilter(filterVal);
+        });
+    });
+
+      // cart icon
+    document.getElementById("cartIconSimple").addEventListener("click", () => {
+        window.location.href = "Cart.html";
+    });
+
+      //render
+    renderProducts();
+    updateCartDisplay();
+
+      // GSAP intro for filter buttons
+    gsap.from(".filter-btn", { duration: 0.5, scale: 0.95, opacity: 0, stagger: 0.05, delay: 0.1 });
+    })();
+</script>
+<!-- Bootstrap JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body>
+
+<!-- References:
+carousel: https://www.w3schools.com/bootstrap5/bootstrap_carousel.php
+-->
+</html>

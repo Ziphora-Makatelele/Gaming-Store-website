@@ -1,0 +1,611 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NexiCore Inc. Home</title>
+
+    <!-- GSAP for animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font1);
+            background-color: #19253d;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Anton&family=Bebas+Neue&family=Jost:ital,wght@1,600&family=Lexend:wght@700&family=Nova+Oval&family=Oswald:wght@500&family=PT+Serif:wght@700&family=Titillium+Web&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap');
+
+        :root {
+            --font1: "Poppins", sans-serif;
+            --fontSizeMenu: 1vw;
+            --fontSizeH1: 9vw;
+            --fontSizeIntro: 3vw;
+            --fontSizeP: 1.2vw;
+        }
+
+        .flex,
+        .flex__col {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flex__col {
+            flex-direction: column;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        /* nav stuff*/
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px 40px;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: Garamond, 'Times New Roman', serif;
+            color: #fcfcfc;
+            text-decoration: none;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links li a.active {
+        color: #00d4ff !important;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 8px;
+        }
+        .nav-links a {
+            color: #fafafa;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* ----- loading screen animation ----- */
+        .intro {
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            font-size: var(--fontSizeIntro);
+            transform-origin: top;
+            font-weight: 600;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .intro__red {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background-color: #30446d;
+            font-family: var(--font1);
+            font-size: 30vw;
+            font-weight: 900;
+            line-height: 30vh;
+            overflow: hidden;
+            color: transparent;
+            text-align: center;
+            -webkit-text-stroke: 1px #222;
+            transform: scaleY(0);
+            transform-origin: bottom;
+        }
+
+        .intro__red div {
+            transform: scaleX(0.5) scaleY(1.5);
+            letter-spacing: -1vw;
+            white-space: nowrap;
+        }
+
+        .hero-fullscreen {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            filter: brightness(0.75);
+        }
+
+        .hero-content {
+            position: absolute;
+            z-index: 20;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .hero-content h1,
+        .hero-content .h1-stroke {
+        font-family: 'Verdana ', serif;
+            font-size: var(--fontSizeH1);
+            font-weight: 450;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 0.9;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .hero-content h1 {
+            color: white;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content .h1-stroke {
+            color: transparent;
+            -webkit-text-stroke: 2px #fff;
+            margin-top: 0.2em;
+        }
+
+        .hero-sub {
+            margin-top: 2rem;
+            font-size: var(--fontSizeP);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            pointer-events: auto;
+        }
+
+        .hero-sub a {
+            color: #ffd966;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .noise {
+            position: fixed;
+            z-index: 1001;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            background-image: url("https://www.paulrogerdev.fr/codepen/noise.png");
+            opacity: 0.05;
+        }
+
+        /* ----- mosaic grid ----- */
+        .hp-mosaic {
+            width: 90%;
+            max-width: 1400px;
+            margin: 80px auto 80px;
+            position: relative;
+            z-index: 30;
+        }
+
+        .hp-mosaic ul {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .hp-mosaic li {
+            position: relative;
+            border-radius: 0px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #1a1a1a;
+        }
+
+        .hp-mosaic li:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .hp-mosaic li.msctL {
+            grid-column: span 2;
+        }
+
+        .hp-mosaic li.msctR {
+            grid-column: span 2;
+        }
+
+        .hp-mosaic li.double {
+            grid-column: span 4;
+        }
+
+        .hp-mosaic li.fullTile {
+            grid-column: span 4;
+        }
+
+        /* tile image container */
+        .tile-image {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background: #0a0a0a;
+        }
+
+        .double .tile-image,
+        .fullTile .tile-image {
+            height: 380px;
+        }
+
+        .tile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .double:hover .tile-image img,
+        .fullTile:hover .tile-image img {
+            transform: scale(1.05);
+        }
+
+        /* tile text overlay */
+        .tile-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            z-index: 2;
+        }
+
+        .fullTile .tile-content {
+            top: 0;
+            bottom: auto;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            max-width: 50%;
+        }
+
+        .c-badge {
+            display: inline-block;
+            background-color: #cbb7eb;
+            color: #0a0a0a;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .c-heading-2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .c-heading-3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .c-paragraph-1 {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .c-call-to-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #85abcf;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: gap 0.2s ease;
+        }
+
+        .c-call-to-action:hover {
+            gap: 0.8rem;
+            text-decoration: underline;
+        }
+
+        .c-call-to-action::after {
+            content: "›";
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .c-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .theme-green .tile-content {
+            background: linear-gradient(to top, #452163, transparent);
+        }
+
+        @media (max-width: 900px) {
+            :root {
+                --fontSizeH1: 12vw;
+                --fontSizeP: 3vw;
+            }
+
+            .hp-mosaic ul {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .hp-mosaic li.msctL,
+            .hp-mosaic li.msctR,
+            .hp-mosaic li.double,
+            .hp-mosaic li.fullTile {
+                grid-column: span 1;
+            }
+
+            .fullTile .tile-content {
+                max-width: 100%;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+                top: auto;
+                bottom: 0;
+            }
+
+            .tile-image,
+            .double .tile-image,
+            .fullTile .tile-image {
+                height: 220px;
+            }
+
+            .navbar {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                gap: 16px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .hero-content h1,
+            .hero-content .h1-stroke {
+                font-size: 15vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="HomePage.html" class="active">Home</a></li>
+                <li><a href="Products.html">Products</a></li>
+                <li><a href="GamesPage.html">Games</a></li>
+                <li><a href="Cart.html">Cart</a></li>
+                <li><a href="Contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="intro flex">
+        Loading
+        <div class="intro__red flex">
+            <div>NexiCoreNexiCoreNexiCore</div>
+        </div>
+    </section>
+
+    <section class="hero-fullscreen">
+        <video class="bg-video" loop autoplay muted playsinline poster="Background2.mp4">
+            <source src="Background2.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="flex main-title">NexiCore</h1>
+            <div class="h1-stroke flex">NexiCore</div>
+            <div class="hero-sub">
+                build and make it your own.
+            </div>
+        </div>
+    </section>
+
+    <!-- mosaic grid stuff-->
+    <div class="hp-mosaic">
+        <ul>
+
+            <li class="msctL" id="largeTout1">
+                <div class="tile-image">
+                    <img src="pa4.png" alt="Game promo" onerror="this.src='https://picsum.photos/id/104/800/600'">
+                </div>
+                <div class="tile-content">
+                    <strong class="c-badge">New</strong>
+                    <h2 class="c-heading-2">NZXT h6 flow</h2>
+                    <p class="c-paragraph-1">Compact Dual-Chamber Mid-Tower Airflow Case with RGB Fans</p>
+                    <a href="Products.html" class="c-call-to-action">Pre-order now</a>
+                </div>
+            </li>
+
+            <li class="msctR double" id="zoomImg1-parent">
+                <div class="tile-image zoomImg" id="zoomImg1">
+                    <img src="pa1.jpg" alt="Forza Motorsport" onerror="this.src='https://picsum.photos/id/15/1200/700'">
+                </div>
+                <div class="tile-content theme-green">
+                    <strong class="c-badge">Coming Soon</strong>
+                    <h3 class="c-heading-3">Forza Motorsport</h3>
+                    <p class="c-paragraph-1">Race like never before.</p>
+                    <a href="GamesPage.html" class="c-call-to-action">Learn more</a>
+                </div>
+            </li>
+
+            <li class="fullTile">
+                <div class="tile-image">
+                    <img src="hm1.jpg" alt="GRAND OPENING SALE"
+                        onerror="this.src='https://picsum.photos/id/26/1600/600'">
+                </div>
+                <div class="tile-content">
+                    <strong class="c-badge">Limited Time</strong>
+                    <h2 class="c-heading-2">Grand opening sale</h2>
+                    <p class="c-paragraph-1">Save up to 45% on select games and accessories.</p>
+                    <div class="c-group">
+                        <a href="Products.html" class="c-call-to-action">Shop PCs</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Noise overlay -->
+    <div class="noise"></div>
+
+<script>
+        // animation stuff
+        var introTL = gsap.timeline();
+        introTL.to(".intro", .1, { fontFamily: "Anton" })
+        introTL.to(".intro", .1, { fontFamily: "Jost" })
+        introTL.to(".intro", .1, { fontFamily: "Alkatra" })
+        introTL.to(".intro", .1, { fontFamily: "Nova Oval" })
+        introTL.to(".intro", .1, { fontFamily: "Oswald" })
+        introTL.to(".intro", .1, { fontFamily: "PT Serif" })
+        introTL.to(".intro", .1, { fontFamily: "Lexend" })
+        introTL.to(".intro", .1, { fontFamily: "Poppins" })
+        introTL.to(".intro", .1, { fontFamily: "Titillium Web" })
+        introTL.to(".intro", 1, { scaleY: 0, ease: "expo.inOut" })
+        introTL.to(".intro__red", 1, { scaleY: 2, ease: "expo.inOut" }, "-=1.25")
+
+        //animation after loading screen
+        function separateWordsAndLetters(text) {
+            let words = text.split(/\s+|<br>/);
+            let result = "";
+            for (let i = 0; i < words.length; i++) {
+                let word = words[i];
+                if (word.length === 0) continue;
+                result += "<div class='flex'>";
+                for (let j = 0; j < word.length; j++) {
+                    result += "<span>" + word[j] + "</span>";
+                }
+                result += "</div>&nbsp;";
+            }
+            return result;
+        }
+
+        var heroH1 = document.querySelector(".hero-content h1");
+        if (heroH1) {
+            let originalText = heroH1.innerText;
+            let separated = separateWordsAndLetters(originalText);
+            heroH1.innerHTML = separated;
+            var titleLetters = document.querySelectorAll(".hero-content h1 span");
+            gsap.set(titleLetters, { y: "120%", scale: -0.5 });
+            gsap.to(titleLetters, {
+                duration: 1.5,
+                y: "10%",
+                scale: 1,
+                ease: "expo.inOut",
+                delay: 0.6,
+                stagger: 0.025
+            });
+        }
+
+        var heroStroke = document.querySelector(".hero-content .h1-stroke");
+        if (heroStroke) {
+            let originalStroke = heroStroke.innerText;
+            let separatedStroke = separateWordsAndLetters(originalStroke);
+            heroStroke.innerHTML = separatedStroke;
+            var strokeLetters = document.querySelectorAll(".hero-content .h1-stroke span");
+            gsap.set(strokeLetters, { y: "120%", scale: -0.5 });
+            gsap.to(strokeLetters, {
+                duration: 1.5,
+                y: "10%",
+                scale: 1,
+                ease: "expo.inOut",
+                delay: 0.6,
+                stagger: 0.025
+            });
+        }
+
+        document.querySelectorAll('video').forEach(vid => {
+            vid.play().catch(e => console.log("Autoplay prevented, user interaction needed"));
+        });
+
+        console.log("NexiCore with fullscreen video hero & mosaic (no curved corners) - ready");
+    </script>
+</body>
+
+<!-- References:
+for js animations: https://freefrontend.com/javascript-animations/
+Paballo Mohajane
+Bonolo Mathiane
+Tshepiso Mathiane
+Phetolo Nkosi
+-->
+</html>

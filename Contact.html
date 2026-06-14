@@ -1,0 +1,879 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description" content="Contact NexiCore — Reach our team for support, orders, or partnership inquiries.">
+  <title>NexiCore | Contact Us</title>
+
+  <!-- GSAP for animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #fafafa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    button,
+    input,
+    textarea,
+    select,
+    .contact-card,
+    .info-card,
+    .toast {
+      border-radius: 0 !important;
+    }
+
+    /* nav stuff*/
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 24px 40px;
+      z-index: 100;
+      background: transparent;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      color: #30446d;
+      text-decoration: none;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links li a:hover {
+      opacity: 0.7;
+    }
+
+    .nav-links li a.active {
+      color: #00d4ff !important;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 8px;
+    }
+
+    .navbar {
+    padding: 16px 20px;
+            }
+
+    .nav-links {
+    gap: 16px;
+            }
+
+    .nav-links a {
+    font-size: 12px;
+            }
+
+    .page-header {
+      text-align: center;
+      padding: 70px 5% 40px;
+    }
+
+    .page-header .eyebrow {
+      display: inline-block;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      color: #30446d;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      padding: 6px 18px;
+      margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+      font-family: Arial, sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      letter-spacing: 2px;
+      color: #ffffff;
+      font-weight: bold;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+      margin-bottom: 16px;
+    }
+
+    .page-header p {
+      color: #8ea3c2;
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* -----layout ----- */
+    main {
+      flex: 1;
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 5% 80px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .contact-card {
+      background: #1f2a44;
+      border: 1px solid #30446d;
+      padding: 45px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #30446d, #7c3aed, #ad4eb6);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
+    .contact-card h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .contact-card .subhead {
+      color: #8ea3c2;
+      font-size: 0.9rem;
+      margin-bottom: 35px;
+    }
+
+    /* FORM GROUPS */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #30446d;
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: #0a1222;
+      border: 1px solid #30446d;
+      color: #fafafa;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      padding: 13px 16px;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #4a5f80;
+      font-size: 0.85rem;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #30446d;
+      box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.15);
+    }
+
+    .form-group textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-group select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300d4ff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    .form-group select option {
+      background: #0a1222;
+      color: #fafafa;
+    }
+
+    /* Character counter */
+    .char-counter {
+      text-align: right;
+      font-size: 0.72rem;
+      color: #4a5f80;
+      margin-top: 5px;
+      transition: color 0.2s;
+    }
+
+    .char-counter.warn {
+      color: #615227;
+    }
+
+    .char-counter.limit {
+      color: #ff4d4d;
+    }
+
+    /* SUBMIT BUTTON */
+    .btn-send {
+      background: #30446d;
+      border: 2px solid #30446d;
+      color: #0a0f1c;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      padding: 14px 32px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-send:hover {
+      background: transparent;
+      color: #30446d;
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+    }
+
+    .btn-send:active {
+      transform: scale(0.98);
+    }
+
+    .btn-send .btn-icon {
+      margin-left: 10px;
+      transition: transform 0.2s;
+    }
+
+    .btn-send:hover .btn-icon {
+      transform: translateX(4px);
+    }
+
+    /* ----- right column ----- */
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* info cards */
+    .info-card {
+      background: #1f2a44;
+      border: 1px solid #30446d;
+      padding: 28px;
+      transition: border-color 0.3s;
+    }
+
+    .info-card:hover {
+      border-color: #30446d;
+    }
+
+    .info-card h3 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #30446d;
+      padding-bottom: 10px;
+    }
+
+    /* contact stuff */
+    .info-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .info-icon-box {
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: #27043f;
+      font-size: 0.95rem;
+    }
+
+    .info-text strong {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #8ea3c2;
+      margin-bottom: 3px;
+    }
+
+    .info-text span,
+    .info-text a {
+      font-size: 0.95rem;
+      color: #fafafa;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .info-text a:hover {
+      color: #30446d;
+    }
+
+    /* business hours */
+    .hours-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(48, 68, 109, 0.5);
+    }
+
+    .hours-row:last-child {
+      border-bottom: none;
+    }
+
+    .hours-row .day {
+      color: #8ea3c2;
+    }
+
+    .hours-row .time {
+      color: #fafafa;
+      font-weight: 500;
+    }
+
+    .hours-row .time.closed {
+      color: #ff4d4d;
+    }
+
+    /* social media links */
+    .social-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0a1222;
+      border: 1px solid #30446d;
+      padding: 10px 16px;
+      text-decoration: none;
+      color: #8ea3c2;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      border-color: #30446d;
+      color: #30446d;
+    }
+
+    .social-link i {
+      font-size: 1rem;
+    }
+
+    /* ----- notification ----- */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1f2a44;
+      border-left: 4px solid #6e5f81;
+      padding: 16px 24px;
+      z-index: 500;
+      font-size: 0.95rem;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transform: translateX(300px);
+      opacity: 0;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 340px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left-color: #2ecc71;
+    }
+
+    .toast.error {
+      border-left-color: #ff4d4d;
+    }
+
+    .toast-icon {
+      font-size: 1.2rem;
+    }
+
+  /*  i will maybe put in a footer
+  footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid #30446d;
+      font-size: 0.8rem;
+      color: #8ea3c2;
+      background: rgba(15, 23, 42, 0.3);
+    } */
+
+    @media (max-width: 960px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .right-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .right-column .info-card:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links li a {
+        font-size: 12px;
+      }
+
+      .page-header {
+        padding: 50px 5% 30px;
+      }
+
+      .contact-card {
+        padding: 28px 22px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .right-column {
+        grid-template-columns: 1fr;
+      }
+
+      .toast {
+        right: 15px;
+        left: 15px;
+        bottom: 20px;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="Background4.mp4" type="video/mp4">
+  </video>
+
+  <div class="page-header"></div>
+  <nav class="navbar">
+    <div class="nav-container">
+      <ul class="nav-links">
+        <li><a href="HomePage.html">Home</a></li>
+        <li><a href="Products.html">Products</a></li>
+        <li><a href="GamesPage.html">Games</a></li>
+        <li><a href="Cart.html">Cart</a></li>
+        <li><a href="href="Contact.html" class="active">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  </nav>
+
+  <main>
+
+    <!--left column contact stuff -->
+    <div class="contact-card" id="contactCard">
+      <h2>Send Us a Message</h2>
+      <p class="subhead">We respond to all inquiries within 24 hours.</p>
+
+      <form id="contactForm" novalidate>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName" name="firstName" placeholder="e.g. Alex" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName" name="lastName" placeholder="e.g. Carter" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number (Optional)</label>
+          <input type="tel" id="phone" name="phone" placeholder="+27 61 234 5678">
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject *</label>
+          <select id="subject" name="subject" required>
+            <option value="" disabled selected>Select a topic</option>
+            <option value="order">Order & Delivery</option>
+            <option value="support">Technical Support</option>
+            <option value="returns">Returns & Refunds</option>
+            <option value="partnership">Partnership / B2B</option>
+            <option value="product">Product Inquiry</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message </label>
+          <textarea id="message" name="message" placeholder="Describe your inquiry in detail..." maxlength="800"
+            required></textarea>
+          <div class="char-counter" id="charCounter">0 / 800</div>
+        </div>
+
+        <button type="submit" class="btn-send" id="sendBtn">
+          Send Message <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- right column -->
+    <div class="right-column">
+
+      <div class="info-card">
+        <h3>Contact Info</h3>
+        <div class="info-items">
+
+          <div class="info-item">
+            <div class="info-icon-box"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="info-text">
+              <strong>Address</strong>
+              <span>14 Tech Park Drive, Sandton<br>Johannesburg, 2196</span>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon-box"><i class="fas fa-phone-alt"></i></div>
+            <div class="info-text">
+              <strong>Phone</strong>
+              <a href="tel:+27115586582">+27 11 558 6582</a>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon-box"><i class="fas fa-envelope"></i></div>
+            <div class="info-text">
+              <strong>Email</strong>
+              <a href="mailto:support@nexicore.co.za">support@nexicore.co.za</a>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon-box"><i class="fas fa-headset"></i></div>
+            <div class="info-text">
+              <strong>Live Chat</strong>
+              <span>Available on our Products page</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Business Hours</h3>
+        <div class="hours-grid">
+          <div class="hours-row">
+            <span class="day">Monday – Friday</span>
+            <span class="time">08:00 – 18:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="day">Saturday</span>
+            <span class="time">09:00 – 14:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="day">Sunday</span>
+            <span class="time closed">Closed</span>
+          </div>
+          <div class="hours-row">
+            <span class="day">Public Holidays</span>
+            <span class="time closed">Closed</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+  (function () {
+
+    // GSAP animations
+    gsap.from(".page-header .eyebrow", { duration: 0.5, y: -10, opacity: 0, ease: "power2.out" });
+    gsap.from(".page-header h1", { duration: 0.7, y: -15, opacity: 0, ease: "power2.out", delay: 0.1 });
+    gsap.from(".page-header p", { duration: 0.6, y: -10, opacity: 0, ease: "power2.out", delay: 0.2 });
+    gsap.from("#contactCard", { duration: 0.7, x: -30, opacity: 0, ease: "power2.out", delay: 0.3 });
+    gsap.from(".right-column .info-card", { duration: 0.6, x: 30, opacity: 0, ease: "power2.out", delay: 0.4, stagger: 0.1 });
+
+    // Character counter
+    const messageBox = document.getElementById("message");
+    const charCounter = document.getElementById("charCounter");
+
+    if (messageBox) {
+      messageBox.addEventListener("input", () => {
+        const len = messageBox.value.length;
+        const max = 800;
+        charCounter.textContent = `${len} / ${max}`;
+        charCounter.className = "char-counter";
+        if (len >= max * 0.9) charCounter.classList.add("limit");
+        else if (len >= max * 0.75) charCounter.classList.add("warn");
+      });
+    }
+
+    function showToast(msg, type = "success") {
+      let toast = document.getElementById("toast");
+      
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "toast";
+        toast.className = "toast";
+        toast.innerHTML = '<span id="toastIcon" class="toast-icon"></span><span id="toastMsg"></span>';
+        document.body.appendChild(toast);
+      }
+      
+      const toastMsg = document.getElementById("toastMsg");
+      const toastIcon = document.getElementById("toastIcon");
+
+      toast.className = "toast " + type;
+      toastMsg.textContent = msg;
+      toastIcon.innerHTML = type === "success" ? "✓" : "✕";
+      toast.classList.add("show");
+
+      setTimeout(() => toast.classList.remove("show"), 4000);
+    }
+
+    const form = document.getElementById("contactForm");
+    const sendBtn = document.getElementById("sendBtn");
+
+    // Add red border styling for invalid fields
+    const style = document.createElement('style');
+    style.textContent = `
+      .form-group input.invalid, 
+      .form-group select.invalid, 
+      .form-group textarea.invalid {
+        border-color: #ff4d4d !important;
+        box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.2) !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    function removeInvalidHighlights() {
+      document.querySelectorAll('.invalid').forEach(field => {
+        field.classList.remove('invalid');
+      });
+    }
+
+    function markInvalidField(fieldId) {
+      const field = document.getElementById(fieldId);
+      if (field) field.classList.add('invalid');
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Remove previous invalid highlights
+      removeInvalidHighlights();
+
+      // Get values
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const subject = document.getElementById("subject").value;
+      const message = document.getElementById("message").value.trim();
+
+      // Track validation results
+      let errors = [];
+      let isValid = true;
+
+      // Validate First Name
+      if (!firstName) {
+        markInvalidField("firstName");
+        errors.push("First Name");
+        isValid = false;
+      }
+
+      // Validate Last Name
+      if (!lastName) {
+        markInvalidField("lastName");
+        errors.push("Last Name");
+        isValid = false;
+      }
+
+      // Validate Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        markInvalidField("email");
+        errors.push("Email Address");
+        isValid = false;
+      } else if (!emailRegex.test(email)) {
+        markInvalidField("email");
+        errors.push("Valid Email Address");
+        isValid = false;
+      }
+
+      // Validate Subject
+      if (!subject || subject === "") {
+        markInvalidField("subject");
+        errors.push("Subject");
+        isValid = false;
+      }
+
+      // Validate Message
+      if (!message) {
+        markInvalidField("message");
+        errors.push("Message");
+        isValid = false;
+      } else if (message.length < 10) {
+        markInvalidField("message");
+        errors.push("Message (minimum 10 characters)");
+        isValid = false;
+      }
+
+      // If validation fails, show all missing fields at once
+      if (!isValid) {
+        let errorMessage = "Please fix the following fields:\n";
+        errors.forEach(error => {
+          errorMessage += `❌ ${error}\n`;
+        });
+        showToast(errors.join(", ") + " are required.", "error");
+        return;
+      }
+
+      // If all validation passes - simulate submission
+      sendBtn.textContent = "Sending...";
+      sendBtn.disabled = true;
+
+      setTimeout(() => {
+        form.reset();
+        if (charCounter) charCounter.textContent = "0 / 800";
+        sendBtn.innerHTML = 'Send Message <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>';
+        sendBtn.disabled = false;
+        showToast("Message sent! We'll reply within 24 hours.", "success");
+        removeInvalidHighlights();
+      }, 1200);
+    });
+
+  })();
+</script>
+<div id="toast" class="toast">
+  <span id="toastIcon" class="toast-icon"></span>
+  <span id="toastMsg"></span>
+</div>
+</body>
+
+</html>
